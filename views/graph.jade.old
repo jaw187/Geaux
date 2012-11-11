@@ -1,0 +1,31 @@
+script(type="text/javascript", src="/javascripts/D3/d3.js")
+script(type="text/javascript", src="/javascripts/d3utils.js");
+script(src="/socket.io/socket.io.js")
+script
+  var rtts=[];
+  var last=null;
+  var socket = io.connect('http://ten.tech.tenseven.org');
+  socket.on('init', function (data) {
+    for (var i=0;i<data.length;i++) {
+      rtts.push(data[i].rtt);
+      last=data[i].when;
+    }
+    d3init();
+    setTimeout("getNewData()",1000);
+  });
+  socket.on('data', function (data) {
+    for (var i=0;i<data.length;i++) {
+      rtts.shift();
+      rtts.push(data[i].rtt);
+      last=data[i].when;
+    }
+    d3drawgraph();
+  });
+  socket.emit('init',{who:'#{host}'});
+  getNewData = function () {
+    socket.emit('get',{who:'#{host}',when:last});
+    setTimeout("getNewData()",1000);
+  }
+h1 Geaux 
+p #{host} 
+

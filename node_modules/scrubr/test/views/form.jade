@@ -1,0 +1,27 @@
+h1= title
+p Welcome to #{title}
+-if (failures)
+  #failures
+    h2 Failures
+    ul
+      -failures.forEach(function (failure) {
+        li.failure=failure
+      -})
+   
+form(method='post', action='/form')
+  #username
+    span Username
+    -if (payload.username) 
+      input(type='text', name='username', value='#{payload.username}')
+    -else
+      input(type='text', name='username')
+
+  #attackstring
+    span Attack String 
+    -if (payload.attack)
+      input(type='text', name='attack', value='#{payload.attack}')
+    -else
+      input(type='text,', name='attack')
+
+  #btn
+    input(type='submit')

@@ -1,0 +1,10 @@
+script(type="text/javascript", src="/javascripts/D3/d3.js")
+script(type="text/javascript", src="/javascripts/geaux.js")
+script(src="/socket.io/socket.io.js")
+script
+  geaux['url'] = '#{url}';
+script(src="/javascripts/httprtt.js")
+h1 Testing #{url}
+.row(style='padding-top: 20px;')
+  .span6
+    #httprtt

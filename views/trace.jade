@@ -1,0 +1,25 @@
+script(type="text/javascript", src="/javascripts/D3/d3.js")
+script(src="/socket.io/socket.io.js")
+script(type="text/javascript", src="/javascripts/geaux.js");
+script
+  geaux['host'] = '#{host}';
+script(type="text/javascript", src="/javascripts/trace.js");
+link(rel='stylesheet', href="/stylesheets/tracegraph.css")
+h1 Trace to host #{host}
+.row(style='padding-top: 20px;');
+  .span8.offset2
+    #tracegraph
+.row(style='padding-top: 20px;');
+  .span8.offset2
+    table#trace.table.table-striped.table-condensed
+      thead
+        tr
+          th Hop
+          th Host
+          th Sent
+          th Drops
+          th Last
+          th AVG
+          th Worst
+          th STDV
+      tbody#tracebody

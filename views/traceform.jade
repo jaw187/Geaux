@@ -1,0 +1,10 @@
+.row
+  .span10.offset1
+    form(href='/trace', method='post')
+      h2 Who
+      div(style="padding-bottom: 4px;") Enter hostname or IP address of the host you would like to trace a route to
+      .row
+        .span3
+          input(type='text', name='host', size='25')
+        .span3
+          button.btn.btn-primary Trace!

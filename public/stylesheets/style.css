@@ -1,0 +1,23 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+h1#title {
+  font-family: 'Magra', sans-serif;
+  font-size: 654%;
+}
+
+a {
+  color: #00B7FF;
+}
+
+		path {
+		    stroke: steelblue;
+		    stroke-width: 1;
+		    fill: none;
+		}
+
+		line {
+		    stroke: black;
+		}

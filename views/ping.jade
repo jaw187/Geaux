@@ -1,0 +1,36 @@
+script(type="text/javascript", src="/javascripts/D3/d3.js")
+script(type="text/javascript", src="/javascripts/geaux.js")
+script(src="/socket.io/socket.io.js")
+script
+  geaux['host'] = '#{host}';
+script(src="/javascripts/ping.js")
+h1 Pinging host #{host}
+.row
+  .span12
+    .row.stats
+      .span2
+        h4 Sent
+        span.label.label-info#sent
+      .span2
+        h4 Drops
+        span.label#drops
+      .span2
+        h4 Deviation
+        span.label#stdv
+      .span2
+        h4 Min
+        span.label#min
+      .span2
+        h4 Max
+        span.label#max
+      .span2
+        h4 Avg
+        span.label#avg
+.row(style='padding-top: 20px;')
+  .span6
+    h2 Last 100
+    #last100
+      span.label.label-info Graph will display once 100 responses have been received 
+  .span6
+    h2 Lifetime
+    #lifetime

@@ -1,0 +1,73 @@
+
+/**
+ * Module dependencies.
+ */
+
+var express = require('express')
+  , routes = require('./routes')
+
+var app = module.exports = express.createServer()
+    ,io = require('socket.io').listen(app);
+
+io.configure(function () {
+  io.set('transports',['htmlfile', 'xhr-polling', 'jsonp-polling']);
+  io.set('log level', 1);
+});
+
+var mongo=require('./mongodb-wrapper'),
+    db = mongo.db('10.7.0.7',27017,'geaux');
+db.collection("pings");
+
+// Configuration
+
+app.configure(function(){
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.logger());
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use(express.static(__dirname + '/public'));
+});
+
+app.configure('development', function(){
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+});
+
+app.configure('production', function(){
+  app.use(express.errorHandler()); 
+});
+
+// Routes
+
+app.get('/', routes.index);
+app.get('/graph/:host', routes.graph);
+
+app.listen(4000);
+console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
+
+//SOCKET.IO
+
+io.sockets.on('connection',function (socket) {
+  socket.on('get', function (data) {
+    db.pings.find({'who' : data.who, 'when' : { '$gt' : new Date(data.when) }}).sort({'when':-1}).toArray(function (err,pings) {
+      if (!err) {
+        var returndata=[];
+        for (var i=pings.length-1;i>=0;i--)
+          returndata.push(pings[i]);
+        socket.emit('data',returndata);
+      }
+    });
+  });
+  socket.on('init', function (data) {
+    db.pings.find({'who' : data.who}).sort({'when' : -1}).limit(600).toArray(function (err,pings) {
+      if (!err) {
+        var returndata=[];
+        for (var i=pings.length-1;i>=0;i--)
+          returndata.push(pings[i]);
+        socket.emit('init',returndata);
+      }
+    });
+  });
+});

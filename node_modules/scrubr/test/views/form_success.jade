@@ -1,0 +1,8 @@
+h1= title
+p Welcome to #{title}
+-if (payload) 
+  -each value, field in payload
+    div
+      span=field
+      span ---- 
+      span=value
